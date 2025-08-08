@@ -9,7 +9,7 @@ public class Shooting : MonoBehaviour
     private float _timeWait = 1f;
     private WaitForSeconds _wait;
 
-    void Start()
+    private void Start()
     {
         _wait = new WaitForSeconds(_timeWait);
         StartCoroutine(Shoot());

@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class Movement : MonoBehaviour
+public class Mover : MonoBehaviour
 {
     [SerializeField] private Transform _route;
-    [SerializeField] private Transform[] _waypoints;
 
+    private Transform[] _waypoints;
     private float _speed = 5;
     private int _waypointIndex;
 
@@ -12,9 +12,10 @@ public class Movement : MonoBehaviour
     {
         _waypoints = new Transform[_route.childCount];
 
-        for (int i = 0; i < _route.childCount; i++)
-            _waypoints[i] = _route.GetChild(i).GetComponent<Transform>();
+        for (int i = 0; i < _waypoints.Length; i++)
+            _waypoints[i] = _route.GetChild(i);
     }
+
     private void Start()
     {
         TurnToTarget();
@@ -26,10 +27,13 @@ public class Movement : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, targetWaypoint, _speed * Time.deltaTime);
 
         if (transform.position == targetWaypoint)
-        {
-            _waypointIndex = ++_waypointIndex % _waypoints.Length;
-            TurnToTarget();
-        }
+            ChangeTarget();
+    }
+
+    private void ChangeTarget()
+    {
+        _waypointIndex = ++_waypointIndex % _waypoints.Length;
+        TurnToTarget();
     }
 
     private void TurnToTarget()
